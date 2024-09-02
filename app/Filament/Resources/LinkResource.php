@@ -42,6 +42,10 @@ class LinkResource extends Resource
                 TextColumn::make('status')
                     ->label('Status')
                     ->sortable(),
+                TextColumn::make('content')
+                    ->label('Content')
+                    ->limit(50)
+                    ->wrap(),
                 TextColumn::make('created_at')
                     ->label('Created At')
                     ->dateTime()

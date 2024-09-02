@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('link_contents', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('link_id')->constrained()->onDelete('cascade');
-            $table->text('content'); 
-            $table->timestamps(); 
+        Schema::table('links', function (Blueprint $table) {
+            $table->json('content'); 
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('link_contents');
+        Schema::table('links', function (Blueprint $table) {
+            //
+        });
     }
 };

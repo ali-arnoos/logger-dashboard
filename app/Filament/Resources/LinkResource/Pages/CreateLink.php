@@ -5,7 +5,6 @@ namespace App\Filament\Resources\LinkResource\Pages;
 use App\Filament\Resources\LinkResource;
 use Filament\Resources\Pages\CreateRecord;
 use App\Services\LinkDataExtractor;
-use App\Models\LinkContent;
 
 class CreateLink extends CreateRecord
 {
@@ -18,19 +17,9 @@ class CreateLink extends CreateRecord
         $data['headers'] = json_encode($extractedData['headers']);
         $data['query_parameters'] = json_encode($extractedData['query_parameters']);
         $data['method'] = $extractedData['method'];
+        $data['content'] = $extractedData['content'];
 
         return $data;
     }
 
-    protected function afterCreate(): void
-    {
-        $link = $this->record;
-
-        $extractedData = LinkDataExtractor::extract($link->url);
-
-        LinkContent::create([
-            'link_id' => $link->id,
-            'content' => $extractedData['content'],
-        ]);
-    }
 }
