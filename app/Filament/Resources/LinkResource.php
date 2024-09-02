@@ -25,6 +25,7 @@ class LinkResource extends Resource
             Forms\Components\TextInput::make('url')
                 ->required()
                 ->url()
+                ->unique(Link::class, 'url', ignoreRecord: true)
                 ->label('URL'),
             Forms\Components\Select::make('method')
                 ->options([

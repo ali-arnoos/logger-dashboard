@@ -16,12 +16,6 @@ class CreateLink extends CreateRecord
     {
         $extractedData = LinkDataExtractor::extract($data['url']);
 
-        if (Link::where('url', $data['url'])->exists()) {
-            throw ValidationException::withMessages([
-                'url' => 'A link with this URL already exists.',
-            ]);
-        }
-
         $data['headers'] = json_encode($extractedData['headers']);
         $data['query_parameters'] = json_encode($extractedData['query_parameters']);
         $data['method'] = $extractedData['method'];
