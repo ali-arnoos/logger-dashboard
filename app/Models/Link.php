@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Jobs\RefreshLink;
 
 class Link extends Model
 {
@@ -20,5 +21,10 @@ class Link extends Model
     public function changes()
     {
         return $this->hasMany(ChangeHistory::class);
+    }
+
+    public function refreshLink()
+    {
+        RefreshLink::dispatch($this);
     }
 }

@@ -10,6 +10,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Actions\Action;
 
 class LinkResource extends Resource
 {
@@ -55,6 +56,10 @@ class LinkResource extends Resource
                 // You can define filters here
             ])
             ->actions([
+                Action::make('refresh')
+                ->label('Refresh Link')
+                ->action(fn (Link $record) => $record->refreshLink())
+                ->requiresConfirmation(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
