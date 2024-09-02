@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('change_history', function (Blueprint $table) {
+        Schema::create('change_histories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('link_id')->constrained()->onDelete('cascade');
             $table->text('old_content')->nullable(); 
