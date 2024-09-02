@@ -23,7 +23,7 @@ class Link extends Model
         return $this->hasMany(ChangeHistory::class);
     }
 
-    public function refreshLink()
+    public function refreshLink(): void
     {
         RefreshLink::dispatch($this);
     }

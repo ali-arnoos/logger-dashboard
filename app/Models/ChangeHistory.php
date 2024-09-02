@@ -11,7 +11,7 @@ class ChangeHistory extends Model
 
     protected $fillable = ['link_id', 'old_content', 'new_content', 'change_location', 'user_id', 'name' ];
 
-    protected static function boot()
+    protected static function boot(): void
     {
         parent::boot();
 
