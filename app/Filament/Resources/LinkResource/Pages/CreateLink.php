@@ -14,7 +14,7 @@ class CreateLink extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        $extractedData = LinkDataExtractor::extract($data['url']);
+        $extractedData = LinkDataExtractor::extract($data['url'], $data['method']);
 
         $data['headers'] = json_encode($extractedData['headers']);
         $data['query_parameters'] = json_encode($extractedData['query_parameters']);
