@@ -32,7 +32,7 @@ class LinkResource extends Resource
                     'POST' => 'POST',
                     'PUT' => 'PUT',
                     'DELETE' => 'DELETE',
-                ])
+                ])->default('GET')
                 ->required()
                 ->label('HTTP Method'),
             Forms\Components\Select::make('status')
