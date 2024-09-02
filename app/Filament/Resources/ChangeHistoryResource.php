@@ -75,8 +75,6 @@ class ChangeHistoryResource extends Resource
     {
         return [
             'index' => Pages\ListChangeHistories::route('/'),
-            'create' => Pages\CreateChangeHistory::route('/create'),
-            'edit' => Pages\EditChangeHistory::route('/{record}/edit'),
         ];
     }
 
