@@ -51,8 +51,6 @@ class ChangeHistoryResource extends Resource
                     ->label('User Name'),
                 TextColumn::make('user_id')
                     ->label('User ID'),
-                TextColumn::make('change_location')
-                    ->label('Change Location')
             ])
             ->filters([
                 // You can define filters here
