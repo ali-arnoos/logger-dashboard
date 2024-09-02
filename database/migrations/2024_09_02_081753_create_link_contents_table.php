@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('logs', function (Blueprint $table) {
+        Schema::create('link_contents', function (Blueprint $table) {
             $table->id();
-            $table->string('link');
-            $table->string('header');
-            $table->timestamps();
+            $table->foreignId('link_id')->constrained()->onDelete('cascade');
+            $table->text('content'); 
+            $table->timestamps(); 
         });
     }
 
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('logs');
+        Schema::dropIfExists('link_contents');
     }
 };
