@@ -10,6 +10,7 @@ use Illuminate\Queue\SerializesModels;
 use App\Models\Link;
 use App\Models\ChangeHistory;
 use App\Services\LinkDataExtractor;
+use Illuminate\Support\Facades\Auth;
 
 class RefreshLink implements ShouldQueue
 {
@@ -28,10 +29,14 @@ class RefreshLink implements ShouldQueue
         $extractedData = LinkDataExtractor::extract($this->link->url);
         $newContent = $extractedData['content'];
 
+        $user = Auth::user();
+
         ChangeHistory::create([
             'link_id' => $this->link->id,
             'old_content' => $this->link->content,
             'new_content' => $newContent,
+            'user_id' => $user->id,
+            'name' => $user->name,
         ]);
 
         if ($this->link->content !== $newContent) {

@@ -47,6 +47,10 @@ class ChangeHistoryResource extends Resource
                     ->label('New Content')
                     ->limit(50)
                     ->wrap(),
+                TextColumn::make('name')
+                    ->label('User Name'),
+                TextColumn::make('user_id')
+                    ->label('User ID'),
                 TextColumn::make('change_location')
                     ->label('Change Location')
             ])

@@ -9,7 +9,7 @@ class ChangeHistory extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['link_id', 'old_content', 'new_content', 'change_location'];
+    protected $fillable = ['link_id', 'old_content', 'new_content', 'change_location', 'user_id', 'name' ];
 
     public function link()
     {

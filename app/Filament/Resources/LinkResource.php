@@ -58,8 +58,7 @@ class LinkResource extends Resource
             ->actions([
                 Action::make('refresh')
                 ->label('Refresh Link')
-                ->action(fn (Link $record) => $record->refreshLink())
-                ->requiresConfirmation(),
+                ->action(fn (Link $record) => $record->refreshLink()),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
