@@ -26,7 +26,23 @@ class LinkResource extends Resource
                 ->required()
                 ->url()
                 ->label('URL'),
-        ]);;
+            Forms\Components\Select::make('method')
+                ->options([
+                    'GET' => 'GET',
+                    'POST' => 'POST',
+                    'PUT' => 'PUT',
+                    'DELETE' => 'DELETE',
+                ])
+                ->required()
+                ->label('HTTP Method'),
+            Forms\Components\Select::make('status')
+                ->options([
+                    'active' => 'Active',
+                    'disabled' => 'Disabled',
+                ])
+                ->default('active')
+                ->label('Status'),
+        ]);
     }
 
     public static function table(Table $table): Table
