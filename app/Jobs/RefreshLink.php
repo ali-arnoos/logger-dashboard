@@ -18,29 +18,46 @@ class RefreshLink implements ShouldQueue
 
     protected $link;
 
-    /* @param  Link  $link */
-    public function __construct(Link $link)
+    /**
+     * @param  Link|null  $link 
+    **/
+    public function __construct(Link $link = null)
     {
         $this->link = $link;
     }
 
     public function handle(): void
     {
-        $extractedData = LinkDataExtractor::extract($this->link->url);
+        if ($this->link) {
+            $this->refreshSingleLink($this->link);
+        } else {
+            $links = Link::where('status', 'active')->get();
+            foreach ($links as $link) {
+                $this->refreshSingleLink($link);
+            }
+        }
+    }
+
+    /**
+     * @param  Link  $link
+     */
+    protected function refreshSingleLink(Link $link): void
+    {
+        $extractedData = LinkDataExtractor::extract($link->url);
         $newContent = $extractedData['content'];
 
         $user = Auth::user();
 
         ChangeHistory::create([
-            'link_id' => $this->link->id,
-            'old_content' => $this->link->content,
+            'link_id' => $link->id,
+            'old_content' => $link->content,
             'new_content' => $newContent,
-            'user_id' => $user->id,
-            'name' => $user->name,
+            'user_id' => $user ? $user->id : null,
+            'name' => $user ? $user->name : 'System',
         ]);
 
-        if ($this->link->content !== $newContent) {
-            $this->link->update([
+        if ($link->content !== $newContent) {
+            $link->update([
                 'content' => $newContent,
             ]);
         }
