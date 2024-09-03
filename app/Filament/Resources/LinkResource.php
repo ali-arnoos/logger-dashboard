@@ -46,7 +46,7 @@ class LinkResource extends Resource
                 TextColumn::make('url')
                     ->label('URL')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()->limit(50),
                 TextColumn::make('status')
                     ->label('Status')
                     ->sortable(),

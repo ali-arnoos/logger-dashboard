@@ -37,7 +37,7 @@ class ChangeHistoryResource extends Resource
                 TextColumn::make('link.url')
                     ->label('Link URL')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()->limit(50),
                 TextColumn::make('created_at')
                     ->label('Changed At')
                     ->sortable(),
