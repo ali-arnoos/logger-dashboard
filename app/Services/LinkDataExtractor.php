@@ -30,15 +30,22 @@ class LinkDataExtractor
             }
 
         } catch (ConnectException $e) {
-            $data['content'] = "Connection error: Could not resolve host. Error: {$e->getMessage()}"; 
-        } catch (RequestException $e) {
 
-            $statusCode = $e->getResponse()->getStatusCode();
+            $data['content'] = json_encode([
+                'error' => 'Connection error: Could not resolve host',
+                'message' => $e->getMessage(),
+            ]);
+        } catch (RequestException $e) {
+            
+            $statusCode = $e->getResponse() ? $e->getResponse()->getStatusCode() : 'N/A';
             $errorMessage = $e->getMessage();
             
-            $data['content'] = "Status Code: {$statusCode}, Error: {$errorMessage}";
+            $data['content'] = json_encode([
+                'error' => 'Request error',
+                'status_code' => $statusCode,
+                'message' => $errorMessage,
+            ]);
         }
-
         return $data;
     }
 }

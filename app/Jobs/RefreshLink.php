@@ -50,8 +50,8 @@ class RefreshLink implements ShouldQueue
 
         ChangeHistory::create([
             'link_id' => $link->id,
-            'old_content' => $link->content,
-            'new_content' => $newContent,
+            'old_content' => json_encode($link->content),
+            'new_content' => json_encode($newContent),
             'user_id' => $user ? $user->id : null,
             'name' => $user ? $user->name : 'System',
         ]);
