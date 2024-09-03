@@ -4,15 +4,15 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\LinkResource\Pages;
 use App\Models\Link;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Actions\Action;
-use Filament\Infolists\Infolist;
-use Filament\Infolists\Components\TextEntry;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Repeater;
 
 class LinkResource extends Resource
 {
@@ -24,18 +24,37 @@ class LinkResource extends Resource
     {
         return $form
         ->schema([
-            Forms\Components\TextInput::make('url')
+            TextInput::make('url')
                 ->required()
                 ->url()
                 ->unique(Link::class, 'url', ignoreRecord: true)
-                ->label('URL'),
-            Forms\Components\Select::make('status')
+                ->label('URL')
+                ->disabled(fn ($record) => $record !== null),
+            Select::make('status')
                 ->options([
                     'active' => 'Active',
                     'disabled' => 'Disabled',
                 ])
                 ->default('active')
                 ->label('Status'),
+            Repeater::make('headers')
+                ->label('Headers')
+                ->schema([
+                    TextInput::make('key')->label('Key')->required(),
+                    TextInput::make('value')->label('Value')->required(),
+                ])
+                ->columns(2)
+                ->collapsible()
+                ->default([]),
+            Repeater::make('query_parameters')
+                ->label('Query Parameters')
+                ->schema([
+                    TextInput::make('key')->label('Key')->required(),
+                    TextInput::make('value')->label('Value')->required(),
+                ])
+                ->columns(2)
+                ->collapsible()
+                ->default([])
         ]);
     }
 
@@ -67,36 +86,9 @@ class LinkResource extends Resource
                 ->label('Refresh')
                 ->action(fn (Link $record) => $record->refreshLink()),
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
-            ]);
-    }
-
-    public static function infolist(Infolist $infolist): Infolist
-    {
-        return $infolist
-            ->schema([
-                TextEntry::make('url')
-                    ->label('URL')
-                    ->columnSpanFull(),
-                TextEntry::make('updated_at')
-                    ->label('Changed At')
-                    ->dateTime()
-                    ->columnSpanFull(),
-                TextEntry::make('headers')
-                    ->label('Headers')
-                    ->columnSpanFull(),
-                TextEntry::make('query_parameters')
-                    ->label('Query Parameters')
-                    ->columnSpanFull(),
-                TextEntry::make('status')
-                    ->label('status')
-                    ->columnSpanFull(),
-                TextEntry::make('content')
-                    ->label('Content')
-                    ->columnSpanFull(),
             ]);
     }
 
@@ -113,7 +105,6 @@ class LinkResource extends Resource
             'index' => Pages\ListLinks::route('/'),
             'create' => Pages\CreateLink::route('/create'),
             'edit' => Pages\EditLink::route('/{record}/edit'),
-            'view' => Pages\ViewLink::route('/{record}'),
         ];
     }
 }

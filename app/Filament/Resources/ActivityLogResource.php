@@ -36,8 +36,6 @@ class ActivityLogResource extends Resource
                 TextColumn::make('description')->label('Description')->sortable()->searchable(),
                 TextColumn::make('causer.name')->label('User')->sortable()->searchable(),
                 TextColumn::make('subject_type')->label('Subject Type')->sortable()->searchable(),
-                TextColumn::make('properties.old.content')->label('Values')->wrap()->limit(50),
-                TextColumn::make('properties.attributes.new_content')->label('New Values')->limit(50),
                 TextColumn::make('created_at')->label('Created At')->dateTime()->sortable(),
             ])
             ->filters([

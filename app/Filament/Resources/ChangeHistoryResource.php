@@ -13,6 +13,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Infolists\Infolist;
 use Filament\Infolists\Components\TextEntry;
 
@@ -39,8 +40,15 @@ class ChangeHistoryResource extends Resource
                     ->searchable()
                     ->sortable()->limit(50),
                 TextColumn::make('created_at')
-                    ->label('Changed At')
+                    ->label('Created At')
                     ->sortable(),
+                IconColumn::make('is_changed')
+                    ->label('Changed')
+                    ->boolean() 
+                    ->sortable()
+                    ->trueIcon('heroicon-o-check-circle') 
+                    ->falseIcon('heroicon-o-x-circle')
+                    ->alignment('center'),
                 TextColumn::make('old_content')
                     ->label('Old Content')
                     ->limit(50)

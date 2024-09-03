@@ -9,25 +9,27 @@ use GuzzleHttp\Exception\ConnectException;
 class LinkDataExtractor
 {
     /* @param  url  $string */
-    public static function extract($url)
+    /* @param  headers  [] */
+    /* @param  queryParameters  [] */
+    public static function extract($url, $headers = [], $queryParameters = [])
     {
         $client = new Client();
+
+        $options = [
+            'headers' => $headers,
+            'query' => $queryParameters,
+        ];
+
         $data = [
-            'headers' => [],
-            'query_parameters' => [],
+            'headers' => $headers,
+            'query_parameters' => $queryParameters,
             'content' => ''
         ];
 
         try {
-            $response = $client->request('GET', $url);
+            $response = $client->request('GET', $url, $options);
 
-            $data['headers'] = json_encode($response->getHeaders());
             $data['content'] = (string) $response->getBody(); 
-
-            $parsedUrl = parse_url($url);
-            if (isset($parsedUrl['query'])) {
-                parse_str($parsedUrl['query'], $data['query_parameters']);
-            }
 
         } catch (ConnectException $e) {
 
@@ -35,8 +37,9 @@ class LinkDataExtractor
                 'error' => 'Connection error: Could not resolve host',
                 'message' => $e->getMessage(),
             ]);
+
         } catch (RequestException $e) {
-            
+
             $statusCode = $e->getResponse() ? $e->getResponse()->getStatusCode() : 'N/A';
             $errorMessage = $e->getMessage();
             

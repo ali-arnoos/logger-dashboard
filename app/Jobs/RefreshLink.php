@@ -43,32 +43,35 @@ class RefreshLink implements ShouldQueue
      */
     protected function refreshSingleLink(Link $link): void
     {
-        $extractedData = LinkDataExtractor::extract($link->url);
+        $extractedData = LinkDataExtractor::extract($link->url, $link->headers, $link->query_paramters);
         $newContent = $extractedData['content'];
 
         $user = Auth::user();
+        $content_changed  = $this->isContentChnaged($link->content, $newContent);
+        
+        if ($content_changed) {
+            $link->update([
+                'content' => $newContent,
+            ]);
+        }
 
         ChangeHistory::create([
             'link_id' => $link->id,
             'old_content' => json_encode($link->content),
             'new_content' => json_encode($newContent),
             'user_id' => $user ? $user->id : null,
+            'is_changed' => $content_changed,
             'name' => $user ? $user->name : 'System',
         ]);
-
-        if ($this->compareContent($link->content, $newContent)) {
-            $link->update([
-                'content' => $newContent,
-            ]);
-        }
     }
 
-    function compareContent($content1, $content2) {
-        return $this->normalizeContent($content1) === $this->normalizeContent($content2);
+    function isContentChnaged($content1, $content2) 
+    {
+        return $this->normalizeContent($content1) !== $this->normalizeContent($content2);
     }
 
-    function normalizeContent($content) {
-
+    function normalizeContent($content) 
+    {
         $decodedContent = json_decode($content, true);
         
         if (json_last_error() !== JSON_ERROR_NONE) {
