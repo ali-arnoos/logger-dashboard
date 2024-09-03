@@ -13,6 +13,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Infolists\Infolist;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Components\KeyValueEntry;
 
 class ChangeHistoryResource extends Resource
 {
@@ -61,6 +64,31 @@ class ChangeHistoryResource extends Resource
             ->bulkActions([
             ]);
     }
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                TextEntry::make('link.url')
+                    ->label('Link URL')
+                    ->columnSpanFull(),
+                TextEntry::make('created_at')
+                    ->label('Changed At')
+                    ->dateTime()
+                    ->columnSpanFull(),
+                TextEntry::make('name')
+                    ->label('User Name')
+                    ->columnSpanFull(),
+                TextEntry::make('user_id')
+                    ->label('User ID')
+                    ->columnSpanFull(),
+                TextEntry::make('old_content')
+                    ->label('Old Content')
+                    ->columnSpanFull(),
+                TextEntry::make('new_content')
+                    ->label('New Content')
+                    ->columnSpanFull(),
+            ]);
+    }
 
     public static function getRelations(): array
     {
@@ -73,6 +101,7 @@ class ChangeHistoryResource extends Resource
     {
         return [
             'index' => Pages\ListChangeHistories::route('/'),
+            'view' => Pages\ViewChangeHistory::route('/{record}'),
         ];
     }
 
