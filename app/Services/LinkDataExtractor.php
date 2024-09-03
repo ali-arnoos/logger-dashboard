@@ -21,7 +21,7 @@ class LinkDataExtractor
         try {
             $response = $client->request('GET', $url);
 
-            $data['headers'] = $response->getHeaders();
+            $data['headers'] = json_encode($response->getHeaders());
             $data['content'] = (string) $response->getBody(); 
 
             $parsedUrl = parse_url($url);
