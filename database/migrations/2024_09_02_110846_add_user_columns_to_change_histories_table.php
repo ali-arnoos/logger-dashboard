@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('change_histories', function (Blueprint $table) {
-            $table->foreignId('user_id')->constrained()->onDelete('cascade')->after('link_id');
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade')->after('link_id');
             $table->string('name')->after('user_id');
         });
     }
