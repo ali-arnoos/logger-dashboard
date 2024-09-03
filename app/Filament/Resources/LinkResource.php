@@ -62,7 +62,7 @@ class LinkResource extends Resource
             ])
             ->actions([
                 Action::make('refresh')
-                ->label('Refresh Link')
+                ->label('Refresh')
                 ->action(fn (Link $record) => $record->refreshLink()),
                 Tables\Actions\EditAction::make(),
             ])
