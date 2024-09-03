@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('links', function (Blueprint $table) {
             $table->id();
-            $table->string('url');
+            $table->string('url')->unique();
             $table->json('headers')->nullable();
             $table->json('query_parameters')->nullable(); 
+            $table->json('content'); 
             $table->enum('status', ['active', 'disabled'])->default('active'); 
             $table->timestamps(); 
         });

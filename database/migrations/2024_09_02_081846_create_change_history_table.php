@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('change_histories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('link_id')->constrained()->onDelete('cascade');
-            $table->text('old_content')->nullable(); 
-            $table->text('new_content'); 
-            $table->string('change_location')->nullable(); 
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade')->after('link_id');
+            $table->string('name');
+            $table->boolean('is_changed');
+            $table->json('old_content')->nullable(); 
+            $table->json('new_content'); 
             $table->timestamps();
         });
     }
