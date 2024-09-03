@@ -11,6 +11,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Actions\Action;
+use Filament\Infolists\Infolist;
+use Filament\Infolists\Components\TextEntry;
 
 class LinkResource extends Resource
 {
@@ -65,9 +67,36 @@ class LinkResource extends Resource
                 ->label('Refresh')
                 ->action(fn (Link $record) => $record->refreshLink()),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
+            ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                TextEntry::make('url')
+                    ->label('URL')
+                    ->columnSpanFull(),
+                TextEntry::make('updated_at')
+                    ->label('Changed At')
+                    ->dateTime()
+                    ->columnSpanFull(),
+                TextEntry::make('headers')
+                    ->label('Headers')
+                    ->columnSpanFull(),
+                TextEntry::make('query_parameters')
+                    ->label('Query Parameters')
+                    ->columnSpanFull(),
+                TextEntry::make('status')
+                    ->label('status')
+                    ->columnSpanFull(),
+                TextEntry::make('content')
+                    ->label('Content')
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -84,6 +113,7 @@ class LinkResource extends Resource
             'index' => Pages\ListLinks::route('/'),
             'create' => Pages\CreateLink::route('/create'),
             'edit' => Pages\EditLink::route('/{record}/edit'),
+            'view' => Pages\ViewLink::route('/{record}'),
         ];
     }
 }

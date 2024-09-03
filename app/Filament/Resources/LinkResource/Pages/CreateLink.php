@@ -16,8 +16,8 @@ class CreateLink extends CreateRecord
     {
         $extractedData = LinkDataExtractor::extract($data['url']);
 
-        $data['headers'] = json_encode($extractedData['headers']);
-        $data['query_parameters'] = json_encode($extractedData['query_parameters']);
+        $data['headers'] = $extractedData['headers'];
+        $data['query_parameters'] = $extractedData['query_parameters'];
         $data['content'] = $extractedData['content'];
 
         return $data;
