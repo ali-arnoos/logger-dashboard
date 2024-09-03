@@ -27,15 +27,6 @@ class LinkResource extends Resource
                 ->url()
                 ->unique(Link::class, 'url', ignoreRecord: true)
                 ->label('URL'),
-            Forms\Components\Select::make('method')
-                ->options([
-                    'GET' => 'GET',
-                    'POST' => 'POST',
-                    'PUT' => 'PUT',
-                    'DELETE' => 'DELETE',
-                ])->default('GET')
-                ->required()
-                ->label('HTTP Method'),
             Forms\Components\Select::make('status')
                 ->options([
                     'active' => 'Active',
@@ -53,9 +44,6 @@ class LinkResource extends Resource
                 TextColumn::make('url')
                     ->label('URL')
                     ->searchable()
-                    ->sortable(),
-                TextColumn::make('method')
-                    ->label('Method')
                     ->sortable(),
                 TextColumn::make('status')
                     ->label('Status')

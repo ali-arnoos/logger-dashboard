@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('url');
             $table->json('headers')->nullable();
             $table->json('query_parameters')->nullable(); 
-            $table->enum('method', ['GET', 'POST', 'PUT', 'DELETE'])->default('GET'); 
             $table->enum('status', ['active', 'disabled'])->default('active'); 
             $table->timestamps(); 
         });

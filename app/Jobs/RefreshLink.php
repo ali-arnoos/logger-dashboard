@@ -26,7 +26,7 @@ class RefreshLink implements ShouldQueue
 
     public function handle(): void
     {
-        $extractedData = LinkDataExtractor::extract($this->link->url, $this->link->method);
+        $extractedData = LinkDataExtractor::extract($this->link->url);
         $newContent = $extractedData['content'];
 
         $user = Auth::user();
