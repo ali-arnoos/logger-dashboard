@@ -56,10 +56,31 @@ class RefreshLink implements ShouldQueue
             'name' => $user ? $user->name : 'System',
         ]);
 
-        if ($link->content !== $newContent) {
+        if ($this->compareContent($link->content, $newContent)) {
             $link->update([
                 'content' => $newContent,
             ]);
         }
     }
+
+    function compareContent($content1, $content2) {
+        return $this->normalizeContent($content1) === $this->normalizeContent($content2);
+    }
+
+    function normalizeContent($content) {
+
+        $decodedContent = json_decode($content, true);
+        
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return trim(preg_replace('/\s+/', ' ', $content));
+        }
+
+        if (is_array($decodedContent)) {
+            return json_encode($decodedContent, JSON_PRETTY_PRINT);
+        } 
+
+        return trim(preg_replace('/\s+/', ' ', $decodedContent));
+    }
+
+    
 }
