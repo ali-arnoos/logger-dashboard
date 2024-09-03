@@ -32,6 +32,10 @@ class Link extends Model
 
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults();
-    }
+        return LogOptions::defaults()
+            ->logOnly(['url', 'headers', 'query_parameters', 'method', 'status', 'content'])
+            ->logOnlyDirty() 
+            ->useLogName('link') 
+            ->setDescriptionForEvent(fn(string $eventName) => "Link has been {$eventName}"); 
+    }   
 }

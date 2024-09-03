@@ -20,6 +20,10 @@ class ChangeHistory extends Model
 
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults();
-    }
+        return LogOptions::defaults()
+            ->logOnly(['url', 'old_content', 'new_content', 'change_location', 'user_id', 'name'])
+            ->logOnlyDirty() 
+            ->useLogName('link') 
+            ->setDescriptionForEvent(fn(string $eventName) => "History has been {$eventName}"); 
+    }  
 }
