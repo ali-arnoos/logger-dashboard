@@ -87,9 +87,6 @@ class LinkResource extends Resource
                 ->icon('heroicon-o-arrow-path')
                 ->action(fn (Link $record) => $record->refreshLink()),
                 Tables\Actions\EditAction::make(),
-                // Action::make('viewHistory')
-                //     ->label('View History')
-                //     ->url(fn (Link $record) => Pages\LinkHistory::getUrl(['record' => $record->id]))
                     ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
@@ -109,7 +106,6 @@ class LinkResource extends Resource
             'index' => Pages\ListLinks::route('/'),
             'create' => Pages\CreateLink::route('/create'),
             'edit' => Pages\EditLink::route('/{record}/edit'),
-            // 'history' => Pages\LinkHistory::route('/{record}/history'),
         ];
     }
 }
