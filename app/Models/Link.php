@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Jobs\RefreshLink;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Link extends Model
 {
@@ -20,7 +21,7 @@ class Link extends Model
         'content' => 'array',
     ];
 
-    public function changes()
+    public function changes(): HasMany
     {
         return $this->hasMany(ChangeHistory::class);
     }
@@ -34,8 +35,8 @@ class Link extends Model
     {
         return LogOptions::defaults()
             ->logOnly(['url', 'headers', 'query_parameters', 'method', 'status', 'content'])
-            ->logOnlyDirty() 
-            ->useLogName('link') 
-            ->setDescriptionForEvent(fn(string $eventName) => "Link has been {$eventName}"); 
-    }   
+            ->logOnlyDirty()
+            ->useLogName('link')
+            ->setDescriptionForEvent(fn(string $eventName) => "Link has been {$eventName}");
+    }
 }
