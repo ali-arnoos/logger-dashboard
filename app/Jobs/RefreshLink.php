@@ -16,10 +16,10 @@ class RefreshLink implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $link;
+    protected ?Link $link;
 
     /**
-     * @param  Link|null  $link 
+     * @param  Link|null  $link
     **/
     public function __construct(Link $link = null)
     {
@@ -47,8 +47,8 @@ class RefreshLink implements ShouldQueue
         $newContent = $extractedData['content'];
 
         $user = Auth::user();
-        $content_changed  = $this->isContentChnaged($link->content, $newContent);
-        
+        $content_changed  = $this->isContentChanged($link->content, $newContent);
+
         if ($content_changed) {
             $link->update([
                 'content' => $newContent,
@@ -59,31 +59,31 @@ class RefreshLink implements ShouldQueue
             'link_id' => $link->id,
             'old_content' => json_encode($link->content),
             'new_content' => json_encode($newContent),
-            'user_id' => $user ? $user->id : null,
+            'user_id' => $user?->id,
             'is_changed' => $content_changed,
             'name' => $user ? $user->name : 'System',
         ]);
     }
 
-    function isContentChnaged($content1, $content2) 
+    function isContentChanged($content1, $content2): bool
     {
         return $this->normalizeContent($content1) !== $this->normalizeContent($content2);
     }
 
-    function normalizeContent($content) 
+    function normalizeContent($content): string
     {
         $decodedContent = json_decode($content, true);
-        
+
         if (json_last_error() !== JSON_ERROR_NONE) {
             return trim(preg_replace('/\s+/', ' ', $content));
         }
 
         if (is_array($decodedContent)) {
             return json_encode($decodedContent, JSON_PRETTY_PRINT);
-        } 
+        }
 
         return trim(preg_replace('/\s+/', ' ', $decodedContent));
     }
 
-    
+
 }
