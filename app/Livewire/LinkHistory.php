@@ -29,7 +29,7 @@ class LinkHistory extends Component implements HasForms, HasTable
     public function table(Table $table): Table
     {
         return $table
-        ->query(ChangeHistory::query()->where('link_id', $this->linkId)) // Filter by link_id
+        ->query(ChangeHistory::query()->where('link_id', $this->linkId)) 
         ->columns([
             TextColumn::make('link.url')
                 ->label('Link URL')
