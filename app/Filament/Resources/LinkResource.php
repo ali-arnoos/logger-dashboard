@@ -82,6 +82,7 @@ class LinkResource extends Resource
                 // You can define filters here
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Action::make('refresh')
                 ->label('Refresh')
                 ->icon('heroicon-o-arrow-path')
@@ -106,6 +107,7 @@ class LinkResource extends Resource
             'index' => Pages\ListLinks::route('/'),
             'create' => Pages\CreateLink::route('/create'),
             'edit' => Pages\EditLink::route('/{record}/edit'),
+            'view' => Pages\ViewLink::route('/{record}'),
         ];
     }
 }
